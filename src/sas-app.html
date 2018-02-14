@@ -139,8 +139,6 @@
       }
 
       _pageChanged(page) {
-        // if(page !== 'sas-app')
-        //   page = 'app';
         var resolvedPageUrl = this.resolveUrl('sas-' + page + '.html');
         Polymer.importHref(
             resolvedPageUrl,
