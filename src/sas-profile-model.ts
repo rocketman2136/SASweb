@@ -6,7 +6,7 @@ declare class UserModelData {
 }
 
 @customElement('sas-profile-model')
-declare class SASProfileModel extends Polymer.Element {
+class SASProfileModel extends Polymer.Element {
   @property({ notify: true })
   data: UserModelData;
 
@@ -15,9 +15,9 @@ declare class SASProfileModel extends Polymer.Element {
 
   connectedCallback() {
     super.connectedCallback();
-    let self = this;
-    if (self.mock) {
-      self.data.klasses = [
+    
+    if (this.mock) {
+      this.data.klasses = [
         {
           id: 1,
           name: 'Senior Design II',

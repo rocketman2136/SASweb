@@ -11,8 +11,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="shared-styles.html">
-
+<link rel="import" href="../bower_components/polymer-decorators/polymer-decorators.html">
 <link rel="lazy-import" href="sas-profile-model.html">
 
 <dom-module id="sas-profile">
@@ -20,26 +21,67 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style include="shared-styles">
       :host {
         display: block;
-        width: 90;
+        height: 100%;
+        background-color: skyblue;
         padding: 10px;
       }
-      .card {
-        
+
+      hr {
+        background-color: navy;
+        border-color: navy;
       }
+
+      paper-card {
+        flex: 1;
+        padding-right: 20px;
+        padding-left: 20px;
+        padding-top: 20px;
+        margin-left: 20px;
+        margin-right: 20px;
+        height: 90%;
+        width: 90%;
+      }
+
+      #main {
+        flex: auto;
+      }
+      
       paper-input {
-        width: 80%;
+        max-width: 400px;
+      }
+      paper-item {
+        color: darkslategray
+      }
+
+      .inner {
+        flex: auto;
       }
     </style>
-    <!-- <sas-profile-model id="profile" data={{model}} mock></sas-profile-model> -->
-    <div class="card">
+  <sas-profile-model id="profile" data={{model}} mock></sas-profile-model>
+    <!-- <div class="card"> -->
+      <div id="main">
+      <paper-card class="card">
+      <div class="inner">
       <div class="circle">1</div>
-      <h1>
-        <paper-item value="{{title}}"></paper-item>
-      </h1>
+      <h1><paper-item value="{{title}}"></paper-item></h1>
       <paper-input label="First Name" type="text" value="{{firstName}}"></paper-input>
       <paper-input label="Last Name" type="text" value="{{lastName}}"></paper-input>
       <paper-input label="Email" type="email" value="{{email}}"></paper-input>
     </div>
+    <div class="inner">
+        <paper-item value="Classes">Classes:</paper-item>
+    </div>
+  </div>
+      <!-- <hr noshade/> -->
+      
+    </paper-card>
   </template>
-  <script scr="sas-profile.js"></script>
+  <!-- <script src="./sas-profile.js"></script> -->
+ <script> 
+    class SASProfile extends Polymer.Element {
+      static get is() { return 'sas-profile'; }
+    }
+
+    window.customElements.define(SASProfile.is, SASProfile);
+  </script> -->
 </dom-module>

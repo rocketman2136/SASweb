@@ -24,7 +24,7 @@
       :host {
         --app-primary-color: navy;
         --app-secondary-color: black;
-
+        
         display: block;
       }
 
@@ -40,6 +40,10 @@
       app-header paper-icon-button {
         --paper-icon-button-ink-color: goldenrod;
       }
+
+      app-header-layout{
+        color: blue;
+      } 
 
       .drawer-list {
         margin: 0 20px;
@@ -97,9 +101,9 @@
             attr-for-selected="name"
             fallback-selection="view404"
             role="main">
-          <sas-profile name="profile"></sas-profile>
-          <sas-home name="home"></sas-home>
-          <my-view3 name="view3"></my-view3>
+            <sas-home name="home"></sas-home>
+            <sas-profile name="profile"></sas-profile>
+            <my-view3 name="view3"></my-view3>
           <my-view404 name="view404"></my-view404>
         </iron-pages>
       </app-header-layout>
@@ -139,6 +143,8 @@
       }
 
       _pageChanged(page) {
+        if(page === 'sas-app')
+          page= 'app';
         var resolvedPageUrl = this.resolveUrl('sas-' + page + '.html');
         Polymer.importHref(
             resolvedPageUrl,
