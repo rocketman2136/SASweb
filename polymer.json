@@ -2,8 +2,7 @@
   "entrypoint": "index.html",
   "shell": "src/sas-app.html",
   "fragments": [
-    "src/**",
-    "src/**/*"
+    "src/sas-*-view.*"
   ],
   "sources": [
     "src/**/*",
@@ -11,13 +10,10 @@
   ],
   "extraDependencies": [
     "manifest.json",
-    "bower_components/webcomponentsjs/*.js"
+    "bower_components/webcomponentsjs/*.js",
+    "@types/*.js"
   ],
   "lint": {
     "rules": ["polymer-2"]
-  },
-  "browser": {
-    "fs": false,
-    "child_process": false
-  }  
+  }
 }

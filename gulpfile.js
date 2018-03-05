@@ -14,7 +14,7 @@ gulp.task('compile', function (done) {
 });
 
 gulp.task('polymerServe', function (done) {
-  exec('polymer serve -p 8000 -v', function (err, stdOut, stdErr) {
+  exec('polymer serve -p 3001 -v', function (err, stdOut, stdErr) {
     console.log(stdOut);
     if (err) {
       done(err);
@@ -26,14 +26,14 @@ gulp.task('polymerServe', function (done) {
 
 gulp.task('browser-sync', function (done) {
   browserSync.init({
-    proxy:"localhost:8000",
-    startPath:"/sas-app",
+    proxy:"localhost:3001",
+    startPath:"",
   })
 });
 
 
 gulp.task('watch', ['browser-sync'], function () {
-  var directoriesToWatch= ["src/**/*.js", "src/**/*.html", "*.js", "*.html"]
+  var directoriesToWatch= ["src/**/*.js", "src/**/*.html", "src/*.js", "src/*.html"]
   directoriesToWatch.forEach(function(d) {
     console.log('Watching for changes at' + d);
     var jsW = gulp.watch(d, {

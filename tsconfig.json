@@ -11,13 +11,13 @@
     "lib": [
       "es2017",
       "dom"
-    ] 
+    ]
   },
   "typeRoots": [
-    "@types"
+    "@types/*.d.ts",
   ],
   "exclude": [
-    "node_modules",
+    "node_modules/**/*",
     "bower_components/**/*",
   ]
 }
