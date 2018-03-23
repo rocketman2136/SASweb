@@ -2,7 +2,9 @@
   "entrypoint": "index.html",
   "shell": "src/sas-app.html",
   "fragments": [
-    "src/sas-*-view.*"
+    "src/sas-view404.html",
+    "src/auth/**",
+    "src/content/**"
   ],
   "sources": [
     "src/**/*",

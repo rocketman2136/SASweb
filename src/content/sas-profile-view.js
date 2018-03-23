@@ -1,5 +1,5 @@
-/// <reference path="./types/types.d.ts"/>
-/// <reference path="../@types/polymer2-ts.ts"/>
+/// <reference path="./../types/types.d.ts"/>
+/// <reference path="../../@types/polymer2-ts.ts"/>
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,9 +18,6 @@ let SASProfileView = class SASProfileView extends Polymer.Element {
         this.midName = this.model.user.midName;
         this.rocketNum = this.model.user.rocketNum;
         this.klasses = this.model.user.klasses;
-    }
-    _modelChange(model) {
-        console.log(model);
     }
     _titleChange(firstName, lastName) {
         let title = '';
@@ -57,17 +54,41 @@ let SASProfileView = class SASProfileView extends Polymer.Element {
         if (klasses !== undefined)
             this.model.user.klasses = this.klasses;
     }
+    _openEditDialog(e) {
+        if (e !== undefined) {
+            this.$.editModal.style.display = "block";
+            this.tKlass = e.model.item;
+            this.i = this.$.profile.indexOf(this.tKlass);
+            this.addEdit = "Edit";
+        }
+    }
+    _openAddDialog() {
+        this.$.addModal.style.display = "block";
+        this.tKlass = this.$.profile.BlankState();
+        this.addEdit = "Add";
+    }
+    _cancelDialog() {
+        this.tKlass = undefined;
+        this.$.editModal.style.display = "none";
+        this.$.addModal.style.display = "none";
+    }
+    _closeEditDialog() {
+        if (this.tKlass !== undefined) {
+            this.$.profile.editKlass(this.tKlass, this.i);
+            this.$.editModal.style.display = "none";
+        }
+    }
+    _closeAddDialog() {
+        if (this.tKlass !== undefined) {
+            this.$.profile.addKlass(this.tKlass);
+            this.$.addModal.style.display = "none";
+        }
+    }
 };
 __decorate([
     property({ reflectToAttribute: true, notify: true }),
     __metadata("design:type", Object)
 ], SASProfileView.prototype, "model", void 0);
-__decorate([
-    observe('model'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], SASProfileView.prototype, "_modelChange", null);
 __decorate([
     observe(['firstName', 'lastName']),
     __metadata("design:type", Function),

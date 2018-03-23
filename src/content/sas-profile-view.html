@@ -1,0 +1,244 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="./../types/modelData.html">
+<link rel="import" href="../shared-styles.html">
+<link rel="import" href="sas-profile-model.html">
+<link rel="import" href="../../bower_components/polymer-decorators/polymer-decorators.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../../bower_components/neon-animation/web-animations.html">
+
+<dom-module id="sas-profile-view">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        height: 100%;
+        padding: 10px;
+      }
+
+      iron-selcted {
+        height: 100%;
+        width: 100%;
+      }
+
+      h1 {
+        /* background-color: navy;
+        border-color:     navy; */
+        flex: 3;
+        width: 30px;
+        margin-right: 0px;
+        padding-right: 0px;
+      }
+
+      .header {
+        flex: 2;
+        flex-direction: row;
+      }
+
+      .circle {
+        flex: 3;
+      }
+
+      .card {
+        display: flex;
+        height: 83vh;
+        width: 95%;
+      }
+
+      #main {
+        flex: auto;
+      }
+
+      .kinner {
+        width: 92%;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+        padding-top: 0px;
+        margin-top: 0px;
+      }
+
+      paper-item {
+        color: darkslategray;
+      }
+
+      div {
+        flex: auto;
+      }
+
+      .klass {
+        height: 100px;
+        width: 200px;
+      }
+
+      /* The Modal (background) */
+
+      #editModal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 2;
+        /* Sit on top */
+        padding-top: 100px;
+        /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+      }
+
+      #addModal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 2;
+        /* Sit on top */
+        padding-top: 100px;
+        /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+      }
+
+      /* Modal Content */
+
+      #kModal {
+        background-color: #fefefe;
+        margin-left: 40%;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+      }
+
+      /* The Close Button */
+
+      .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .red {
+        background-color: darkred;
+        color: white;
+      }
+
+      .blue {
+        background-color: navy;
+        color: white;
+      }
+    </style>
+    <sas-profile-model id="profile" data={{model}} mock></sas-profile-model>
+    <div id="main">
+      <paper-card class="card">
+        <div class="inner">
+          <div class="header">
+            <h1>
+              <paper-item>{{title}}</paper-item>
+            </h1>
+          </div>
+          <paper-input label="First Name" type="text" value="{{firstName}}"></paper-input>
+          <paper-input label="Middle Name" type="text" value="{{midName}}"></paper-input>
+          <paper-input label="Last Name" type="text" value="{{lastName}}"></paper-input>
+          <paper-input label="Email" type="email" value="{{email}}"></paper-input>
+          <paper-input label="Rocket Number" type="number" value="{{rocketNum}}" always-float-label>
+            <div slot="prefix">R-</div>
+          </paper-input>
+        </div>
+        <div class="inner">
+          <paper-item value="Classes">Classes:</paper-item>
+          <template is="dom-repeat" items="{{model.user.klasses}}">
+            <paper-card class="klass" on-click="_openEditDialog">
+              <paper-item class="kinner">[[item.courseNN]]</paper-item>
+              <paper-item class="kinner">[[item.startTime]] - [[item.endTime]]</paper-item>
+            </paper-card>
+          </template>
+          <paper-fab raised class="blue" on-click="_openAddDialog"><iron-icon icon="icons:add"></iron-icon></paper-fab>
+
+        </div>
+        <div id="editModal" class="modal">
+          <paper-card id="kModal" class="modal">
+            <paper-dropdown-menu label="Class">
+              <paper-listbox slot="dropdown-content" attr-for-selected="value" selected="{{tKlass}}">
+                <template is="dom-repeat" items="{{model.klasses}}">
+                  <paper-item value="[[item]]">[[item.courseNN]]</paper-item>
+                </template>
+              </paper-listbox>
+            </paper-dropdown-menu>
+            <paper-item>
+              <strong>Title:</strong>&nbsp;&nbsp;[[tKlass.name]]</paper-item>
+            <paper-item>
+              <strong>Course Description:</strong>
+            </paper-item>
+            <paper-item>&nbsp;&nbsp;&nbsp;[[tKlass.description]]</paper-item>
+            <paper-item>
+              <strong>Days of the week:</strong>&nbsp;&nbsp;[[tKlass.daysOfWeek]]</paper-item>
+            <paper-item>
+              <strong>Times:</strong>&nbsp;&nbsp;[[tKlass.startTime]]-[[tKlass.endTime]]</paper-item>
+            <paper-button raised class="red" on-click="_cancelDialog">Cancel</paper-button>
+            <paper-button raised class="blue" on-click="_closeEditDialog">[[addEdit]]</paper-button>
+          </paper-card>
+        </div>
+        <div id="addModal" class="modal">
+          <paper-card id="kModal" class="modal">
+            <paper-dropdown-menu label="Class">
+              <paper-listbox slot="dropdown-content" attr-for-selected="value" selected="{{tKlass}}">
+                <template is="dom-repeat" items="{{model.klasses}}">
+                  <paper-item value="[[item]]">[[item.courseNN]]</paper-item>
+                </template>
+              </paper-listbox>
+            </paper-dropdown-menu>
+            <paper-item>
+              <strong>Title:</strong>&nbsp;&nbsp;[[tKlass.name]]</paper-item>
+            <paper-item>
+              <strong>Course Description:</strong>
+            </paper-item>
+            <paper-item>&nbsp;&nbsp;&nbsp;[[tKlass.description]]</paper-item>
+            <paper-item>
+              <strong>Days of the week:</strong>&nbsp;&nbsp;[[tKlass.daysOfWeek]]</paper-item>
+            <paper-item>
+              <strong>Times:</strong>&nbsp;&nbsp;[[tKlass.startTime]]-[[tKlass.endTime]]</paper-item>
+            <paper-button raised class="red" on-click="_cancelDialog">Cancel</paper-button>
+            <paper-button raised class="blue" on-click="_closeAddDialog">[[addEdit]]</paper-button>
+          </paper-card>
+        </div>
+      </paper-card>
+  </template>
+
+  <script src="sas-profile-view.js"></script>
+</dom-module>

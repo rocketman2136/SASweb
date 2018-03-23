@@ -1,0 +1,69 @@
+<link rel="import" href="../bower_components/polymer-element.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="./styles/drawer-styles.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/polymer-decorators/polymer-decorators.html">
+<link rel="lazy-import" href="./content/sas-profile-view.html">
+<link rel="lazy-import" href="./content/sas-home-view.html">
+
+<dom-module id="sas-content">
+  <template>
+    <style include="drawer-styles iron-flex iron-flex-alignment">
+      :host {
+        --app-primary-color: navy;
+        --app-secondary-color: black;
+        display: block;
+      }
+
+      iron-pages {
+        overflow-y: hidden;
+      }
+
+      paper-button.grey {
+        background-color: slategray;
+        color: white;
+      }
+
+      paper-button { 
+        background-color: navy;
+        color:goldenrod;
+      }
+    </style>
+
+    <app-route route="[[route]]" pattern="/:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
+
+    <app-header-layout>
+      <app-header slot="header" fixed effects="waterfall">
+        <app-toolbar>
+          <div main-title>Home</div>
+        </app-toolbar>
+      </app-header>
+
+      <app-drawer-layout id="drawerLayout">
+        <app-drawer id="drawer" slot="drawer">
+          <div class="drawer-content layout vertical">
+            <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list">
+              <a name="home" href="/content/home/">Home</a>
+              <a name="profile" href="/content/profile/">Profile</a>
+            </iron-selector>
+            <paper-button style="margin: auto 30px 30px 30px 30px;" raised on-click="_logOut">Sign Out</paper-button>
+          </div>
+        </app-drawer>
+
+        <iron-pages selected="[[page]]" attr-for-selected="name" fallback-selection="notfound" class="flex layout vertical">
+          <sas-home-view name="home"></sas-home-view>
+          <sas-profile-view name="profile"></sas-profile-view>
+          <div name="notfound">Error 404: Not found</div>
+        </iron-pages>
+      </app-drawer-layout>
+    </app-header-layout>
+  </template>
+  <script src="sas-content.js"></script>
+</dom-module>
